@@ -40,12 +40,19 @@ jobs:
 
       - name: Build and Verify
         uses: natete/workflows-test/.github/actions/maven-build@main
+        with:
+          java_version: ${{ inputs.java_version }}
+          nexus_user: ${{ secrets.nexus_user }}
+          nexus_password: ${{ secrets.nexus_password }}
+          branch: ${{ github.base_ref }}
 
       - name: Docker build
         id: docker-build
         uses: natete/workflows-test/.github/actions/docker-build@main
         with:
-          version: ${{ steps.version.outputs.version }}
+          dockernexus_username: ${{ secrets.dockernexus_username }}
+          dockernexus_token: ${{ secrets.dockernexus_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
     outputs:
       version: ${{ steps.docker-build.outputs.version }}

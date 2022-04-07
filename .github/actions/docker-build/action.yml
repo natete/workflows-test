@@ -6,6 +6,15 @@ inputs:
     description: The container repository to store the image
     required: false
     default: 'nexus'
+  dockernexus_username:
+    description: The username to use to authenticate to the docker nexus
+    required: true
+  dockernexus_token:
+    description: The token to use to authenticate to the docker nexus
+    required: true
+  github_token:
+    description: The token to use to authenticate to the github
+    required: true
 
 outputs:
   docker_repository:
@@ -35,8 +44,8 @@ runs:
         echo "REGISTRY=nexus.playtomic.io" >> $GITHUB_ENV
         echo "IMAGE=nexus.playtomic.io/${{ github.event.repository.name }}" >> $GITHUB_ENV
         echo "DOCKER_REPOSITORY=nexus.playtomic.io" >> $GITHUB_ENV
-        echo "DOCKER_USERNAME=${{ secrets.dockernexus_username }}" >> $GITHUB_ENV
-        echo "DOCKER_PASSWORD=${{ secrets.dockernexus_token }}" >> $GITHUB_ENV
+        echo "DOCKER_USERNAME=${{ inputs.dockernexus_username }}" >> $GITHUB_ENV
+        echo "DOCKER_PASSWORD=${{ intputs.dockernexus_token }}" >> $GITHUB_ENV
       shell: bash
 
     - name: GHCR environment
@@ -46,7 +55,7 @@ runs:
         echo "IMAGE=nexus.playtomic.io/${{ github.event.repository.name }}" >> $GITHUB_ENV
         echo "DOCKER_REPOSITORY=ghcr.io/${{ github.repository_owner }}" >> $GITHUB_ENV  
         echo "DOCKER_USERNAME=${{ github.repository_owner }}" >> $GITHUB_ENV
-        echo "DOCKER_PASSWORD=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+        echo "DOCKER_PASSWORD=${{ inputs.github_token }}" >> $GITHUB_ENV
       shell: bash
 
     - name: Docker login
