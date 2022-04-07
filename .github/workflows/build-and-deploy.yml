@@ -53,12 +53,10 @@ jobs:
 
   deploy:
 
-    runs-on: self-hosted
     needs: build
 
-    steps:
-      - uses: natete/workflows-test/.github/workflows/self-hosted-runner-publish.yml@main
-        with:
-          version: ${{ needs.build.outputs.version }}
-          replicas: ${{ inputs.replicas }}
-          docker_repository: ${{ needs.build.outputs.docker_repository }}
+    uses: natete/workfows-test/.github/workflows/self-hosted-runner-publish.yml@main
+    with:
+      version: ${{ needs.build.outputs.version }}
+      replicas: ${{ inputs.replicas }}
+      docker_repository: ${{ needs.build.outputs.docker_repository }}
