@@ -48,7 +48,7 @@ jobs:
 
       - name: Extract version
         id: version
-        uses: ./.github/actions/anemone-version
+        uses: natete/workflows-test/.github/actions/anemone-version
         with:
           branch_name: ${{ github.base_ref }}sion
 
