@@ -45,7 +45,7 @@ runs:
         echo "IMAGE=nexus.playtomic.io/${{ github.event.repository.name }}" >> $GITHUB_ENV
         echo "DOCKER_REPOSITORY=nexus.playtomic.io" >> $GITHUB_ENV
         echo "DOCKER_USERNAME=${{ inputs.dockernexus_username }}" >> $GITHUB_ENV
-        echo "DOCKER_PASSWORD=${{ intputs.dockernexus_token }}" >> $GITHUB_ENV
+        echo "DOCKER_PASSWORD=${{ inputs.dockernexus_token }}" >> $GITHUB_ENV
       shell: bash
 
     - name: GHCR environment
