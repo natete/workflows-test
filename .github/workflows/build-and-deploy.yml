@@ -46,16 +46,23 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
           branch: ${{ github.base_ref }}
 
+      - name: Extract version
+        id: version
+        uses: ./.github/actions/anemone-version
+        with:
+          branch_name: ${{ github.base_ref }}sion
+
       - name: Docker build
         id: docker-build
         uses: natete/workflows-test/.github/actions/docker-build@main
         with:
+          version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
           dockernexus_token: ${{ secrets.dockernexus_token }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
     outputs:
-      version: ${{ steps.docker-build.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
       docker_repository: ${{ steps.docker-build.outputs.docker_repository }}
 
   deploy:

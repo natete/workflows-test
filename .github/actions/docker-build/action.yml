@@ -2,6 +2,9 @@ name: Docker Build
 description: Build docker images
 
 inputs:
+  version:
+    description: Version of the image
+    required: true
   container_repository:
     description: The container repository to store the image
     required: false
@@ -20,20 +23,11 @@ outputs:
   docker_repository:
     description: The docker repository used
     value: ${{ env.DOCKER_REPOSITORY }}
-  version:
-    description: The image version
-    value: ${{ steps.version.outputs.version }}
 
 runs:
   using: composite
 
   steps:
-
-    - name: Extract version
-      id: version
-      uses: ./.github/actions/anemone-version
-      with:
-        branch_name: ${{ github.base_ref }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -71,7 +65,7 @@ runs:
       with:
         images: ${{ env.IMAGE }}
         tags: |
-          type=raw,value=${{ steps.version.outputs.version }}
+          type=raw,value=${{ inputs.version }}
           type=raw,value=latest
 
     - name: Build and push
